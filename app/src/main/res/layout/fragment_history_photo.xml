@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.historyphoto.HistoryPhotoFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_history_photo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toEndOf="@id/guideline_photo_history_tools"
+            app:layout_constraintStart_toStartOf="parent"
+            app:spanCount="2"
+            tools:listitem="@layout/item_history_photo" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_photo_history_tools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.84" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline_photo_history_tools"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_add_photo_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginVertical="24dp"
+                android:contentDescription="@string/fab_content_description_add_photo_history"
+                app:backgroundTint="@color/purple_200"
+                app:srcCompat="@drawable/add_new_item" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_edit_photo_history"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginVertical="16dp"
+                android:contentDescription="@string/fab_content_description_edit_photo_history"
+                app:backgroundTint="@color/purple_200"
+                app:srcCompat="@drawable/edit_item" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_map_history_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginVertical="16dp"
+                android:contentDescription="@string/fab_content_description_map_history_photo"
+                app:backgroundTint="@color/purple_200"
+                app:srcCompat="@drawable/map_history_photo" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_delete_history_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginVertical="16dp"
+                android:contentDescription="@string/fab_content_description_delete_photo_history"
+                app:backgroundTint="@color/purple_200"
+                app:srcCompat="@drawable/delete_item" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

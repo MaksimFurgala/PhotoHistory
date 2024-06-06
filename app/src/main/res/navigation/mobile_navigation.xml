@@ -9,17 +9,31 @@
         android:id="@+id/nav_home"
         android:name="com.example.photohistory.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_history_photo"
+            app:destination="@id/nav_history_photo" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.photohistory.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
-
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.photohistory.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_history_photo"
+        android:name="com.example.photohistory.ui.historyphoto.HistoryPhotoFragment"
+        android:label="HistoryPhotoFragment"
+        tools:layout="@layout/fragment_history_photo"/>
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.photohistory.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/nav_life_line"
+        android:name="com.example.photohistory.ui.lifeline.LifeLineFragment"
+        android:label="LifeLineFragment"
+        tools:layout="@layout/fragment_life_line"/>
+
 </navigation>

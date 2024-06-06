@@ -7,7 +7,26 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home">Главная</string>
+    <string name="menu_gallery">Галлерея</string>
+    <string name="menu_slideshow">Слайдшоу</string>
+    <string name="menu_history_photo">Фото-истории</string>
+    <string name="fab_content_description_add_photo">Добавить новое фото</string>
+    <string name="card_photo_content_description">Фото</string>
+    <string name="card_history_photo_content_description">Фото-история</string>
+    <string name="tv_title_history_photo">Фото-история (...)</string>
+    <string name="fab_content_description_add_photo_history">Добавить фото-историю</string>
+    <string name="fab_content_description_edit_photo_history">Редактировать фото-историю</string>
+    <string name="fab_content_description_map_history_photo">Фото-история на карте</string>
+    <string name="fab_content_description_delete_photo_history">Удалить фото-историю</string>
+    <string name="settings_title">Настройки</string>
+    <string name="dark_theme_switch_label">Темная тема</string>
+    <string name="save_dropbox_switch_label">Синхронизировать данные в облаке</string>
+    <string name="save_special_storage_switch_label">Хранить фото в спец. хранилище</string>
+    <string name="title_home_text">Фото-история</string>
+    <string name="tv_home_content_text">Фотографируйте и объединяйте фото в фото-истории, которые представлены на карте с отметками геолокаций. \nВ приложении есть функция как файлового хранения информации, так и хранения в спец. хранилище, с возможностью синхронизации с облаком.</string>
+    <string name="iv_content_description_settings">Настройки</string>
+    <string name="iv_content_description_home">Домашняя страница</string>
+    <string name="history_map">History map</string>
+    <string name="menu_life_line">Карта фото-историй</string>
 </resources>

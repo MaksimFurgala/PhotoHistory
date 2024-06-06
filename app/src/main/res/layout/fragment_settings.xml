@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.settings.SettingsFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/iv_content_description_settings"
+        android:src="@drawable/settings_background"
+        android:scaleType="centerCrop"
+        android:alpha="0.5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/settings_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_title"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            android:textAlignment="center"/>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:checked="false"
+            android:text="@string/dark_theme_switch_label"
+            app:thumbTint="@drawable/thump"
+            app:trackTint="@drawable/track">
+        </com.google.android.material.switchmaterial.SwitchMaterial>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:textSize="16sp"
+            android:text="@string/save_special_storage_switch_label"
+            app:thumbTint="@drawable/thump"
+            app:trackTint="@drawable/track" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:checked="false"
+            android:text="@string/save_dropbox_switch_label"
+            app:thumbTint="@drawable/thump"
+            app:trackTint="@drawable/track" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
