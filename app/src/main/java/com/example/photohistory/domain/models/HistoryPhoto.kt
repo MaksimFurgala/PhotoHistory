@@ -1,7 +1,9 @@
 package com.example.photohistory.domain.models
 
 import android.location.Location
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
+import kotlinx.parcelize.Parcelize
 
 /**
  * Фото-история (содержит коллекцию фотографий).
@@ -11,11 +13,12 @@ import androidx.lifecycle.LiveData
  * @property id - id
  * @constructor Create empty History photo
  */
+@Parcelize
 data class HistoryPhoto(
     val name: String,
     val photos: List<Photo>,
     val id: Int = UNDEFINED_ID
-) {
+): Parcelable {
 
     companion object {
         const val UNDEFINED_ID = 0
