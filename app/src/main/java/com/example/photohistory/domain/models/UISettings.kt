@@ -5,7 +5,7 @@ package com.example.photohistory.domain.models
  *
  * @constructor Create empty Settings
  */
-object UISettings {
-    val currentThemeStyle: ThemeStyle = ThemeStyle.DARK
-    val currentTab: Int = 0
-}
+data class UISettings(
+    val currentThemeStyle: ThemeStyle,
+    val currentTab: Int
+)

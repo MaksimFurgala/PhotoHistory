@@ -1,19 +1,11 @@
 package com.example.photohistory.domain.usecases
 
 import androidx.lifecycle.LiveData
-import com.example.photohistory.di.AppComponent
-import com.example.photohistory.di.DaggerAppComponent
 import com.example.photohistory.domain.models.HistoryPhoto
 import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.domain.repository.PhotoHistoryRepository
-import dagger.internal.DaggerCollections
-import dagger.internal.DaggerGenerated
-import javax.inject.Inject
 
-class PhotoUseCase @Inject constructor(private val repository: PhotoHistoryRepository) {
-    init {
-        DaggerAppComponent.create().inject(this)
-    }
+class PhotoUseCase (private val repository: PhotoHistoryRepository) {
 
     /**
      * Создание нового фото.
