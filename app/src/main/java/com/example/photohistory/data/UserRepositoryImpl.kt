@@ -4,10 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.photohistory.domain.models.UserSettings
 import com.example.photohistory.domain.repository.UserRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class UserRepositoryImpl (val context: Context) : UserRepository {
     private val sharedPreferences: SharedPreferences by lazy {

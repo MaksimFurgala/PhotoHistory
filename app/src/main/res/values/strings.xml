@@ -29,4 +29,10 @@
     <string name="iv_content_description_home">Домашняя страница</string>
     <string name="history_map">History map</string>
     <string name="menu_life_line">Карта фото-историй</string>
+    <string name="create_photo_image_content_description">Делай фотографии</string>
+    <string name="tv_create_photo_title">Делай фотографии</string>
+    <string name="create_history_photo_content_description">Создавай альбомы</string>
+    <string name="tv_create_history_photo">Создавай альбомы</string>
+    <string name="review_map_content_description">Просматривай карту</string>
+    <string name="tv_review_map">Просматривай карту</string>
 </resources>

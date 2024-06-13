@@ -1,7 +1,9 @@
 package com.example.photohistory.di
 
 import android.content.Context
+import com.example.photohistory.data.PhotoHistoryRepositoryImpl
 import com.example.photohistory.data.UserRepositoryImpl
+import com.example.photohistory.domain.repository.PhotoHistoryRepository
 import com.example.photohistory.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -18,5 +20,11 @@ class DataModule {
     @Singleton
     fun provideUserRepository(@ApplicationContext context: Context): UserRepository {
         return UserRepositoryImpl(context)
+    }
+
+    @Provides
+    @Singleton
+    fun providePhotoHistoryRepository(): PhotoHistoryRepository {
+        return PhotoHistoryRepositoryImpl()
     }
 }

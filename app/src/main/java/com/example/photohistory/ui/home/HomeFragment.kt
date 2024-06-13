@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.photohistory.R
 import com.example.photohistory.databinding.FragmentHomeBinding
 import com.example.photohistory.domain.models.UserSettings
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -20,8 +19,6 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     val homeViewModel by viewModels<HomeViewModel>()
@@ -32,12 +29,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        //region Загрузка пользовательских настроек
         homeViewModel.launchUserData()
         homeViewModel.userSettings.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
                 updateUserSettings(it)
             }
         }
+        //endregion
+
         return binding.root
     }
 
@@ -46,6 +47,13 @@ class HomeFragment : Fragment() {
 
         binding.root.setOnClickListener {
             findNavController().navigate(R.id.action_nav_home_to_nav_history_photo)
+        }
+
+        val firstLaunchAppElapsed = homeViewModel.userSettings.value?.firstLaunchAppElapsed ?: false
+
+        // Проверяем, что первый запуск приложения и запускаем анимации и выводим доп. элементы.
+        if (!firstLaunchAppElapsed) {
+            
         }
     }
 
@@ -56,7 +64,8 @@ class HomeFragment : Fragment() {
      */
     private suspend fun updateUserSettings(userSettings: UserSettings) {
         if (!userSettings.firstLaunchAppElapsed)
-            homeViewModel.updateStatusLaunch()
+            userSettings.firstLaunchAppElapsed = true
+        homeViewModel.updateStatusLaunch(userSettings)
     }
 
     override fun onDestroyView() {

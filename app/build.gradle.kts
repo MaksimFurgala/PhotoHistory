@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.dagger.hilt)
-    //id("dagger.hilt.android.plugin")
 }
 
 android {

@@ -45,9 +45,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
      * Обновление статуса запуска.
      *
      */
-    suspend fun updateStatusLaunch() {
-        _userSettings.value?.firstLaunchAppElapsed = true
-        userSettings.value?.let { settingsUseCase.updateUserSettings(it) }
+    suspend fun updateStatusLaunch(userSettings: UserSettings) {
+        settingsUseCase.updateUserSettings(userSettings)
     }
 
     override fun onCleared() {
