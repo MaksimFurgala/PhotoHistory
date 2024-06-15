@@ -21,7 +21,7 @@ class UserRepositoryImpl (val context: Context) : UserRepository {
      */
     override suspend fun putUserSettings(settings: UserSettings) {
         sharedPreferences.edit().apply {
-            putBoolean(FIRST_LAUNCH_APP_ELAPSED_KEY, settings.firstLaunchAppElapsed)
+            putBoolean(FIRST_LAUNCH_APP_ELAPSED_KEY, settings.firstLaunchAppIsElapsed)
         }.apply()
     }
 
@@ -34,7 +34,7 @@ class UserRepositoryImpl (val context: Context) : UserRepository {
      */
     override fun getUserSettings(): UserSettings {
         return UserSettings(
-            firstLaunchAppElapsed = sharedPreferences.getBoolean(
+            firstLaunchAppIsElapsed = sharedPreferences.getBoolean(
                 FIRST_LAUNCH_APP_ELAPSED_KEY,
                 false
             )

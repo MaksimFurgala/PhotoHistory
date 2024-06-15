@@ -32,7 +32,7 @@
     <string name="create_photo_image_content_description">Делай фотографии</string>
     <string name="tv_create_photo_title">Делай фотографии</string>
     <string name="create_history_photo_content_description">Создавай альбомы</string>
-    <string name="tv_create_history_photo">Создавай альбомы</string>
+    <string name="tv_create_history_photo">Создавай фото-альбомы</string>
     <string name="review_map_content_description">Просматривай карту</string>
     <string name="tv_review_map">Просматривай карту</string>
 </resources>

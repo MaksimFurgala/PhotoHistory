@@ -9,7 +9,14 @@ class SettingsUseCase (val repository: UserRepository){
         return repository.getUserSettings()
     }
 
+    /**
+     * Обновление настроек пользователя, с учетом дополнительных условий.
+     *
+     * @param userSettings - настройки пользователя
+     */
     suspend fun updateUserSettings(userSettings: UserSettings) {
+        if (!userSettings.firstLaunchAppIsElapsed)
+            userSettings.firstLaunchAppIsElapsed = true
         return repository.putUserSettings(userSettings)
     }
 }

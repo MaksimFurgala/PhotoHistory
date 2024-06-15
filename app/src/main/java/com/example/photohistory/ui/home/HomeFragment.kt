@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.photohistory.R
 import com.example.photohistory.databinding.FragmentHomeBinding
 import com.example.photohistory.domain.models.UserSettings
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -30,10 +28,14 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        //region Загрузка пользовательских настроек
+        //region Загрузка/обновление пользовательских настроек.
         homeViewModel.launchUserData()
+
+        // Флаг для проверке того, что нужно обновить настройки пользователя
+        val needUpdateUserSettings =
+            homeViewModel.userSettings.value?.firstLaunchAppIsElapsed == false
         homeViewModel.userSettings.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
+            if (needUpdateUserSettings) {
                 updateUserSettings(it)
             }
         }
@@ -49,11 +51,11 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_home_to_nav_history_photo)
         }
 
-        val firstLaunchAppElapsed = homeViewModel.userSettings.value?.firstLaunchAppElapsed ?: false
+        val firstLaunchAppElapsed = homeViewModel.userSettings.value?.firstLaunchAppIsElapsed ?: false
 
         // Проверяем, что первый запуск приложения и запускаем анимации и выводим доп. элементы.
         if (!firstLaunchAppElapsed) {
-            
+
         }
     }
 
@@ -62,10 +64,8 @@ class HomeFragment : Fragment() {
      *
      * @param userSettings
      */
-    private suspend fun updateUserSettings(userSettings: UserSettings) {
-        if (!userSettings.firstLaunchAppElapsed)
-            userSettings.firstLaunchAppElapsed = true
-        homeViewModel.updateStatusLaunch(userSettings)
+    private fun updateUserSettings(userSettings: UserSettings) {
+        homeViewModel.updateUserSettings(userSettings)
     }
 
     override fun onDestroyView() {

@@ -23,6 +23,10 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     val isFirstLaunchApp: LiveData<Boolean>
         get() = _isFirstLaunchApp
 
+    private val _needUpdateUserSettings = MutableLiveData<Boolean>()
+    val needUpdateUserSettings: LiveData<Boolean>
+        get() = _needUpdateUserSettings
+
     @Inject
     lateinit var settingsUseCase: SettingsUseCase
 
@@ -42,15 +46,16 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 
     /**
-     * Обновление статуса запуска.
+     * Обновление настроек пользователя.
      *
      */
-    suspend fun updateStatusLaunch(userSettings: UserSettings) {
-        settingsUseCase.updateUserSettings(userSettings)
+    fun updateUserSettings(userSettings: UserSettings) {
+        viewModelScope.launch {
+            settingsUseCase.updateUserSettings(userSettings)
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-
     }
 }
