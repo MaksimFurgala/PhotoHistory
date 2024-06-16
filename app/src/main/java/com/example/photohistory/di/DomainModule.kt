@@ -1,6 +1,8 @@
 package com.example.photohistory.di
 
+import com.example.photohistory.domain.repository.PhotoHistoryRepository
 import com.example.photohistory.domain.repository.UserRepository
+import com.example.photohistory.domain.usecases.PhotoUseCase
 import com.example.photohistory.domain.usecases.SettingsUseCase
 import dagger.Module
 import dagger.Provides
@@ -17,5 +19,11 @@ class DomainModule {
     @ActivityRetainedScoped
     fun provideSettingsUseCase(repository: UserRepository): SettingsUseCase {
         return SettingsUseCase(repository)
+    }
+
+    @Provides
+    @ActivityRetainedScoped
+    fun providePhotoUseCase(repository: PhotoHistoryRepository): PhotoUseCase {
+        return PhotoUseCase(repository)
     }
 }

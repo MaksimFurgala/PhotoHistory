@@ -82,7 +82,7 @@
                     android:id="@+id/iv_create_photo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/create_photo_image_content_description"
                     android:src="@drawable/fab_camera_gray" />
@@ -111,7 +111,7 @@
                     android:id="@+id/iv_create_history_photo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/create_history_photo_content_description"
                     android:src="@drawable/history_photo_gray" />
@@ -141,7 +141,7 @@
                     android:id="@+id/iv_review_map"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_margin="16dp"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/review_map_content_description"
                     android:src="@drawable/map_history_photo_gray" />

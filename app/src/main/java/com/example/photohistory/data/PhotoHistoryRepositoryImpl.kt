@@ -8,7 +8,7 @@ import com.example.photohistory.domain.models.UISettings
 import com.example.photohistory.domain.repository.PhotoHistoryRepository
 import javax.inject.Inject
 
-class PhotoHistoryRepositoryImpl @Inject constructor(): PhotoHistoryRepository {
+class PhotoHistoryRepositoryImpl (): PhotoHistoryRepository {
     override suspend fun addPhoto(photo: Photo) {
         TODO("Not yet implemented")
     }
