@@ -35,4 +35,6 @@
     <string name="tv_create_history_photo">Создавай фото-альбомы</string>
     <string name="review_map_content_description">Просматривай карту</string>
     <string name="tv_review_map">Просматривай карту</string>
+    <string name="new_photo_content_description">Новое фото</string>
+    <string name="tv_new_photo_is_created">Новое фото создано:</string>
 </resources>

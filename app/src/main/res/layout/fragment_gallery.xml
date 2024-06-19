@@ -26,6 +26,65 @@
             app:spanCount="3"
             tools:listitem="@layout/item_photo" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_new_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <LinearLayout
+            android:id="@+id/new_photo_panel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/rounded_background"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/fab_create_photo"
+            app:layout_constraintEnd_toStartOf="@+id/fab_create_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fab_create_photo">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_new_photo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginVertical="6dp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/new_photo_content_description"
+                android:scaleType="centerCrop"
+                android:src="@drawable/fab_camera_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:shapeAppearanceOverlay="@style/Circular" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_new_photo_is_created"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_name_new_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    tools:text="Наименование нового фото" />
+            </LinearLayout>
+
+        </LinearLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_create_photo"
             android:layout_width="wrap_content"
@@ -38,6 +97,7 @@
             app:backgroundTint="@color/purple_200"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/fab_camera" />
+            app:srcCompat="@drawable/fab_camera_white" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
