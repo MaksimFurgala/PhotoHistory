@@ -30,7 +30,6 @@ class GalleryFragment : Fragment() {
         contractImageCapture = registerForActivityResult(ActivityResultContracts.TakePicture()) {
             if (it) {
                 binding.ivNewPhoto.setImageURI(galleryViewModel.newImageUri.value)
-                binding.tvNameNewPhoto.text = galleryViewModel.newImageUri.value?.lastPathSegment ?: ""
             } else {
                 // В случае отмены логируем и удаляем временный файл.
                 Log.d("GalleryFragment", "ImageCapture is cancelled.")
@@ -59,20 +58,6 @@ class GalleryFragment : Fragment() {
             fabCreatePhoto.setOnClickListener {
                 galleryViewModel.createImageUri()
                 contractImageCapture.launch(galleryViewModel.newImageUri.value)
-            }
-        }
-
-        observeViewModel()
-    }
-
-    /**
-     * Подписка на изменения объектов LiveData из ViewModel.
-     *
-     */
-    private fun observeViewModel() {
-        with(galleryViewModel) {
-            newImageUri.observe(viewLifecycleOwner) {
-                binding.ivNewPhoto.setImageURI(it)
             }
         }
     }
