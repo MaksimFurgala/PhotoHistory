@@ -2,8 +2,9 @@ package com.example.photohistory.domain.usecases
 
 import com.example.photohistory.domain.models.UserSettings
 import com.example.photohistory.domain.repository.UserRepository
+import javax.inject.Inject
 
-class SettingsUseCase (val repository: UserRepository){
+class SettingsUseCase @Inject constructor(val repository: UserRepository){
 
     fun getUserSettings(): UserSettings {
         return repository.getUserSettings()

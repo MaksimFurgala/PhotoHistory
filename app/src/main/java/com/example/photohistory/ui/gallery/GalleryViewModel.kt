@@ -9,9 +9,12 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.domain.usecases.PhotoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -19,10 +22,10 @@ import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
-class GalleryViewModel @Inject constructor(@ApplicationContext val context: Context) : ViewModel() {
-
-    @Inject
-    lateinit var photoUseCase: PhotoUseCase
+class GalleryViewModel @Inject constructor(
+    @ApplicationContext val context: Context,
+    private val photoUseCase: PhotoUseCase
+) : ViewModel() {
 
     private val _newImageUri = MutableLiveData<Uri>()
     val newImageUri: LiveData<Uri>
@@ -31,6 +34,19 @@ class GalleryViewModel @Inject constructor(@ApplicationContext val context: Cont
     private val _newImageFile = MutableLiveData<File?>()
     val newImageFile: LiveData<File?>
         get() = _newImageFile
+
+    val photoList = photoUseCase.getPhotoList()
+
+    /**
+     * Добавление нового фото.
+     *
+     * @param photo
+     */
+    fun addPhoto(photo: Photo) {
+        viewModelScope.launch {
+            photoUseCase.addPhoto(photo)
+        }
+    }
 
     /**
      * Создание Uri для файла новой фотографии и обновление свойств для Uri и File.

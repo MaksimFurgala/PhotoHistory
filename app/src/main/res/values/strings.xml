@@ -6,7 +6,6 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Главная</string>
     <string name="menu_gallery">Галлерея</string>
     <string name="menu_slideshow">Слайдшоу</string>
@@ -37,4 +36,7 @@
     <string name="tv_review_map">Просматривай карту</string>
     <string name="new_photo_content_description">Новое фото</string>
     <string name="tv_new_photo_is_created">Новое фото создано:</string>
+    <string name="iv_photo_content_description">Фотография</string>
+    <string name="tv_photo_title">Новое фото</string>
+    <string name="tv_photo_tools_text">Фото</string>
 </resources>

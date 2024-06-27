@@ -7,22 +7,21 @@ import com.example.photohistory.domain.usecases.SettingsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
-import dagger.hilt.android.scopes.ActivityRetainedScoped
-import dagger.hilt.android.scopes.ActivityScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(SingletonComponent::class)
 class DomainModule {
 
     @Provides
-    @ActivityRetainedScoped
+    @Singleton
     fun provideSettingsUseCase(repository: UserRepository): SettingsUseCase {
         return SettingsUseCase(repository)
     }
 
     @Provides
-    @ActivityRetainedScoped
+    @Singleton
     fun providePhotoUseCase(repository: PhotoHistoryRepository): PhotoUseCase {
         return PhotoUseCase(repository)
     }

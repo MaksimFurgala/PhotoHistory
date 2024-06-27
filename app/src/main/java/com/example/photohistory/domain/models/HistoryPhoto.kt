@@ -16,7 +16,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class HistoryPhoto(
     val name: String,
-    val photos: List<Photo>,
+//    val photos: List<Photo>,
     val id: Int = UNDEFINED_ID
 ): Parcelable {
 

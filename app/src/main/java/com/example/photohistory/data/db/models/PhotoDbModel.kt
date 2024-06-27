@@ -1,12 +1,7 @@
 package com.example.photohistory.data.db.models
 
-import android.location.Location
-import android.os.Parcelable
-import androidx.annotation.Size
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.photohistory.domain.models.HistoryPhoto.Companion.UNDEFINED_ID
-import kotlinx.parcelize.Parcelize
 
 /**
  * Фото.
@@ -23,7 +18,9 @@ data class PhotoDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
-    val path: String,
-    val description: String,
-    val location: Location? = null,
+    val path: String?,
+    val dataBase64: String?,
+    val description: String?,
+    val latitude: Double?,
+    val longitude: Double?
 )

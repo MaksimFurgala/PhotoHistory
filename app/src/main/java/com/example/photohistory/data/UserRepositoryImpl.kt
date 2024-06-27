@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.photohistory.domain.models.UserSettings
 import com.example.photohistory.domain.repository.UserRepository
+import javax.inject.Inject
 
-class UserRepositoryImpl (val context: Context) : UserRepository {
+class UserRepositoryImpl @Inject constructor(val context: Context) : UserRepository {
     private val sharedPreferences: SharedPreferences by lazy {
         context.getSharedPreferences(
             USER_SETTINGS_TABLE_NAME,

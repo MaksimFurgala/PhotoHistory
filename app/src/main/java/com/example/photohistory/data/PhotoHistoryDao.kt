@@ -12,20 +12,17 @@ import com.example.photohistory.data.db.models.PhotoDbModel
 @Dao
 interface PhotoHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addPhoto(photoDbModel: PhotoDbModel)
+    suspend fun addPhoto(photoDbModel: PhotoDbModel)
 
     @Delete
-    fun deletePhoto(photoDbModel: PhotoDbModel)
+    suspend fun deletePhoto(photoDbModel: PhotoDbModel)
 
     @Query("SELECT * FROM photos WHERE id=:photoId LIMIT 1")
-    fun getPhoto(photoId: Int)
+    suspend fun getPhoto(photoId: Int): PhotoDbModel
 
     @Update
-    fun editPhoto(photoDbModel: PhotoDbModel)
+    suspend fun editPhoto(photoDbModel: PhotoDbModel)
 
     @Query("SELECT * FROM photos")
     fun getPhotoList(): LiveData<List<PhotoDbModel>>
-
-    @Query("SELECT * FROM ")
-    fun getPhotoListOfHistoryPhoto()
 }

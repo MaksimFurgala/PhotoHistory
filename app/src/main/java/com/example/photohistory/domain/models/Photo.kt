@@ -19,10 +19,13 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Photo(
     val name: String,
-    val path: String,
-    val description: String = DEFAULT_DESCRIPTION,
-    val location: Location? = null,
-    val id: Int = UNDEFINED_ID
+    val path: String?,
+    val dataBase64: String? = null,
+    val description: String? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+    var isChecked: Boolean = false,
+    val id: Int = UNDEFINED_ID,
 ): Parcelable {
     companion object {
         private const val DEFAULT_DESCRIPTION = ""

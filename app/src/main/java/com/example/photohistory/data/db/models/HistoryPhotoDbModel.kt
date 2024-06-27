@@ -8,5 +8,4 @@ data class HistoryPhotoDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
-//    val photos: List<PhotoDbModel>,
 )

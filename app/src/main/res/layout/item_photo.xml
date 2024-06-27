@@ -1,34 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="photoItem"
             type="com.example.photohistory.domain.models.Photo" />
     </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:setBackgroundColorCardViewPhoto="@{photoItem.checked}"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/card_photo_content_description"
+                android:setImageUri="@{photoItem.path}"
                 tools:srcCompat="@tools:sample/avatars" />
+
             <TextView
                 android:id="@+id/tv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="4dp"
+                android:setTextColorCardViewPhoto="@{photoItem.checked}"
+                android:text="@{photoItem.name}"
                 android:textAlignment="center"
-                tools:text="@{photoItem.name}">
-            </TextView>
-        </LinearLayout>
+                android:textSize="11sp"
+                tools:text="@string/tv_photo_tools_text" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 </layout>
