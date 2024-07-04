@@ -1,6 +1,8 @@
 package com.example.photohistory.ui.gallery
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,9 +13,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.photohistory.R
 import com.example.photohistory.databinding.FragmentGalleryBinding
 import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.ui.PhotoListAdapter
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,12 +27,6 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
 
-    // Включен ли режим для выбора нескольких фото из списка
-    private var multipleCheckedItemsIsEnabled = false
-
-    // Количество выбранных фотографий
-    private var countOfSelectedPhoto: Int = 0
-
     val galleryViewModel by viewModels<GalleryViewModel>()
 
     @Inject
@@ -35,6 +34,7 @@ class GalleryFragment : Fragment() {
 
     private lateinit var contractImageCapture: ActivityResultLauncher<Uri>
 
+    @SuppressLint("Recycle")
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -46,12 +46,20 @@ class GalleryFragment : Fragment() {
                     galleryViewModel.newImageUri.value.toString()
                 )
                 galleryViewModel.addPhoto(photo)
-                binding.ivNewPhoto.setImageURI(galleryViewModel.newImageUri.value)
 
+                Picasso.get()
+                    .load(galleryViewModel.newImageUri.value)
+                    .placeholder(R.drawable.fab_camera_white)
+                    .error(R.drawable.photo_error_white)
+                    .into(binding.ivNewPhoto)
             } else {
                 // В случае отмены логируем и удаляем временный файл.
                 Log.d("GalleryFragment", "ImageCapture is cancelled.")
-                galleryViewModel.newImageFile.value?.delete()
+                galleryViewModel.newImageUri.value?.let { uri -> context.contentResolver.delete(
+                    uri,
+                    null,
+                    null
+                ) }
             }
         }
     }
@@ -63,6 +71,12 @@ class GalleryFragment : Fragment() {
     private fun setupRecyclerView() {
         with(binding.rvPhotoList) {
             adapter = photoListAdapter
+            val orientation = context.resources.configuration.orientation
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                layoutManager = GridLayoutManager(context, 3)
+            } else {
+                layoutManager = GridLayoutManager(context, 5)
+            }
         }
     }
 
@@ -106,16 +120,18 @@ class GalleryFragment : Fragment() {
      */
     private fun setupAdapterClickListener() {
         with(photoListAdapter) {
+            //val multipleChecked = galleryViewModel.multipleCheckedPhotosIsEnabled.value
             onPhotoClickListener = { photo, position ->
-                if (multipleCheckedItemsIsEnabled) {
+                if (galleryViewModel.multipleCheckedPhotosIsEnabled.value == true) {
                     changePhotoState(photo)
                     notifyItemChanged(position)
                 }
             }
 
             onPhotoLongClickListener = { photo, position ->
-                if (!multipleCheckedItemsIsEnabled)
-                    multipleCheckedItemsIsEnabled = true
+                if (galleryViewModel.multipleCheckedPhotosIsEnabled.value != true) {
+                    galleryViewModel.updateMultipleCheckedPhotos(true)
+                }
                 changePhotoState(photo)
                 notifyItemChanged(position)
             }
@@ -130,13 +146,13 @@ class GalleryFragment : Fragment() {
     private fun changePhotoState(photo: Photo) {
         if (photo.isChecked) {
             photo.isChecked = false
-            countOfSelectedPhoto--
+            galleryViewModel.removeSelectedPhoto(photo)
         } else {
             photo.isChecked = true
-            countOfSelectedPhoto++
+            galleryViewModel.addSelectedPhoto(photo)
         }
-        if (countOfSelectedPhoto < 1) {
-            multipleCheckedItemsIsEnabled = false
+        if (galleryViewModel.selectedPhotos.value?.any() != true) {
+            galleryViewModel.updateMultipleCheckedPhotos(false)
         }
     }
 

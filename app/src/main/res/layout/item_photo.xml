@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/iv_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/card_photo_content_description"
                 android:setImageUri="@{photoItem.path}"

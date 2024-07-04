@@ -35,17 +35,88 @@ class GalleryViewModel @Inject constructor(
     val newImageFile: LiveData<File?>
         get() = _newImageFile
 
+    private val _multipleCheckedPhotosIsEnabled = MutableLiveData<Boolean>()
+    val multipleCheckedPhotosIsEnabled: LiveData<Boolean>
+        get() = _multipleCheckedPhotosIsEnabled
+
+    private val _selectedPhotos = MutableLiveData<MutableSet<Photo>>()
+    val selectedPhotos: MutableLiveData<MutableSet<Photo>>
+        get() = _selectedPhotos
+
     val photoList = photoUseCase.getPhotoList()
+
+    /**
+     * Инициализируем нач. значения для списка выбранных фото,
+     * режима множественного выбора.
+     */
+    init {
+        _selectedPhotos.value = mutableSetOf()
+        _multipleCheckedPhotosIsEnabled.value = false
+    }
+
+    /**
+     * Обновить статус множнственного выбора фото в галлереи.
+     *
+     * @param multipleChecked
+     */
+    fun updateMultipleCheckedPhotos(multipleChecked: Boolean) {
+        _multipleCheckedPhotosIsEnabled.value = multipleChecked
+    }
 
     /**
      * Добавление нового фото.
      *
-     * @param photo
+     * @param photo - фото
      */
     fun addPhoto(photo: Photo) {
         viewModelScope.launch {
             photoUseCase.addPhoto(photo)
         }
+    }
+
+    /**
+     * Удаление нескольких фото (БД + файловая система)
+     *
+     */
+    fun deletePhotos() {
+        selectedPhotos.value?.forEach {
+            deletePhoto(it)
+            context.contentResolver.delete(
+                Uri.parse(it.path),
+                null,
+                null
+            )
+        }
+        _selectedPhotos.value?.clear()
+    }
+
+    /**
+     * Удаление фото.
+     *
+     * @param photo - фото
+     */
+    private fun deletePhoto(photo: Photo) {
+        viewModelScope.launch {
+            photoUseCase.deletePhoto(photo)
+        }
+    }
+
+    /**
+     * Добавление фото в список выбранных фото.
+     *
+     * @param photo - фото
+     */
+    fun addSelectedPhoto(photo: Photo) {
+        _selectedPhotos.value?.add(photo)
+    }
+
+    /**
+     * Удаление фото из списка выбранных фото.
+     *
+     * @param photo - фото
+     */
+    fun removeSelectedPhoto(photo: Photo) {
+        _selectedPhotos.value?.remove(photo)
     }
 
     /**
@@ -76,7 +147,7 @@ class GalleryViewModel @Inject constructor(
     /**
      * Создание файла для нового фото.
      *
-     * @return файл
+     * @return - файл
      */
     @SuppressLint("SimpleDateFormat")
     private fun createImageFile(): File {

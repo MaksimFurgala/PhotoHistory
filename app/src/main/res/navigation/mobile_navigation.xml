@@ -26,6 +26,9 @@
         <argument
             android:name="historyPhoto"
             app:argType="com.example.photohistory.domain.models.HistoryPhoto" />
+        <action
+            android:id="@+id/action_nav_gallery_to_nav_photo2"
+            app:destination="@id/nav_photo" />
     </fragment>
     <fragment
         android:id="@+id/nav_history_photo"
@@ -53,5 +56,10 @@
             android:name="historyPhoto"
             app:argType="com.example.photohistory.domain.models.HistoryPhoto" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_photo"
+        android:name="com.example.photohistory.ui.photo.PhotoFragment"
+        android:label="fragment_photo"
+        tools:layout="@layout/fragment_photo" />
 
 </navigation>

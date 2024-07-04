@@ -8,6 +8,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.example.photohistory.R
+import com.squareup.picasso.Picasso
+import java.io.File
 
 /**
  * Установка картинки для imageVIew через путь (Uri).
@@ -17,7 +19,13 @@ import com.example.photohistory.R
  */
 @BindingAdapter("android:setImageUri")
 fun setImageUri(view: ImageView, path: String) {
-    view.setImageURI(Uri.parse(path))
+    Picasso.get()
+        .load(Uri.parse(path))
+        .placeholder(R.drawable.photo_placeholder)
+        .fit()
+        .centerCrop()
+        .error(R.drawable.photo_error)
+        .into(view)
 }
 
 /**

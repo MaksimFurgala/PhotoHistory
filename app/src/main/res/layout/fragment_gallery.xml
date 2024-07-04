@@ -87,6 +87,21 @@
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_delete_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="32dp"
+            android:clickable="true"
+            android:contentDescription="@string/fab_content_description_add_photo"
+            android:onClick="@{() -> viewModel.deletePhotos()}"
+            app:backgroundTint="@color/purple_200"
+            app:layout_constraintBottom_toTopOf="@+id/fab_create_photo"
+            app:layout_constraintEnd_toEndOf="@+id/fab_create_photo"
+            app:layout_constraintStart_toEndOf="@+id/new_photo_panel"
+            app:srcCompat="@drawable/delete_item" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_create_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

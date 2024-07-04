@@ -49,6 +49,7 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     implementation(libs.mapstruct)
     kapt(libs.mapstruct.processor)
+    implementation(libs.picasso)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
