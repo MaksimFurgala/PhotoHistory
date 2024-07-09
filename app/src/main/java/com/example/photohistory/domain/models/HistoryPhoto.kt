@@ -3,6 +3,7 @@ package com.example.photohistory.domain.models
 import android.location.Location
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
+import androidx.versionedparcelable.NonParcelField
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -16,7 +17,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class HistoryPhoto(
     val name: String,
-//    val photos: List<Photo>,
+    @NonParcelField
+    val photos: List<Photo>,
     val id: Int = UNDEFINED_ID
 ): Parcelable {
 

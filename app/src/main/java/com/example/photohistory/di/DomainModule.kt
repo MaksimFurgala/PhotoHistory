@@ -2,6 +2,7 @@ package com.example.photohistory.di
 
 import com.example.photohistory.domain.repository.PhotoHistoryRepository
 import com.example.photohistory.domain.repository.UserRepository
+import com.example.photohistory.domain.usecases.HistoryPhotoUseCase
 import com.example.photohistory.domain.usecases.PhotoUseCase
 import com.example.photohistory.domain.usecases.SettingsUseCase
 import dagger.Module
@@ -24,5 +25,11 @@ class DomainModule {
     @Singleton
     fun providePhotoUseCase(repository: PhotoHistoryRepository): PhotoUseCase {
         return PhotoUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideHistoryPhotoUseCase(repository: PhotoHistoryRepository): HistoryPhotoUseCase {
+        return HistoryPhotoUseCase(repository)
     }
 }

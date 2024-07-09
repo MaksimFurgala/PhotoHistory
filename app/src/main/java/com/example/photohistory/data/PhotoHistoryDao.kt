@@ -7,6 +7,8 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.photohistory.data.db.models.HistoryPhotoDbModel
+import com.example.photohistory.data.db.models.HistoryPhotoWithPhotos
 import com.example.photohistory.data.db.models.PhotoDbModel
 
 @Dao
@@ -25,4 +27,7 @@ interface PhotoHistoryDao {
 
     @Query("SELECT * FROM photos")
     fun getPhotoList(): LiveData<List<PhotoDbModel>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addHistoryPhoto(historyPhotoDbModel: HistoryPhotoDbModel)
 }

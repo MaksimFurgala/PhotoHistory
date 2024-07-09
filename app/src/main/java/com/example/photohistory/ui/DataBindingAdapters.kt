@@ -8,8 +8,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.example.photohistory.R
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
-import java.io.File
 
 /**
  * Установка картинки для imageVIew через путь (Uri).
@@ -57,4 +57,13 @@ fun setTextColorCardViewPhoto(view: TextView, isChecked: Boolean) {
     } else {
         view.setTextColor(ContextCompat.getColor(view.context, R.color.black))
     }
+}
+
+@BindingAdapter("errorInputName")
+fun bindErrorInputName(textInputLayout: TextInputLayout, isError: Boolean) {
+    val message = if (isError)
+        textInputLayout.context.getString(R.string.error_input_name)
+    else
+        null
+    textInputLayout.error = message
 }

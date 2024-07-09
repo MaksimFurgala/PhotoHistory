@@ -10,6 +10,6 @@ import org.mapstruct.Mapper
 interface DatabaseMapper {
     fun photoToPhotoDbModel(photo: Photo): PhotoDbModel
     fun photoDbModelToPhoto(photoDbModel: PhotoDbModel): Photo
-    fun historyPhotoToHistoryPhotoDbModel(historyPhotoDbModel: HistoryPhotoDbModel): HistoryPhoto
-    fun historyPhotoDbModelToHistoryPhoto(historyPhoto: HistoryPhoto): HistoryPhotoDbModel
+    fun historyPhotoToHistoryPhotoDbModel(historyPhoto: HistoryPhoto): HistoryPhotoDbModel
+    fun historyPhotoDbModelToHistoryPhoto(historyPhoto: HistoryPhotoDbModel): HistoryPhoto
 }

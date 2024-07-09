@@ -5,6 +5,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import com.example.photohistory.data.db.models.HistoryPhotoDbModel
+import com.example.photohistory.data.db.models.HistoryPhotoWithPhotos
 import com.example.photohistory.data.db.models.PhotoDbModel
 import com.example.photohistory.domain.models.HistoryPhoto
 import com.example.photohistory.domain.models.LifeLine
@@ -57,7 +59,8 @@ class PhotoHistoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addHistoryPhoto(historyPhoto: HistoryPhoto) {
-        TODO("Not yet implemented")
+        val historyPhotoDbModel = mapper.historyPhotoToHistoryPhotoDbModel(historyPhoto)
+        photoHistoryDao.addHistoryPhoto(historyPhotoDbModel)
     }
 
     override suspend fun deleteHistoryPhoto(historyPhoto: HistoryPhoto) {
