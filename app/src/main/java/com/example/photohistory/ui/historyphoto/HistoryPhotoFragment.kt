@@ -1,31 +1,51 @@
 package com.example.photohistory.ui.historyphoto
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.photohistory.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.photohistory.databinding.FragmentHistoryPhotoBinding
+import com.example.photohistory.domain.models.HistoryPhoto
+import com.example.photohistory.ui.historyphoto.HistoryPhotoFragmentDirections.actionNavHistoryPhotoToHistoryPhotoItemFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HistoryPhotoFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = HistoryPhotoFragment()
-    }
+    private var _binding: FragmentHistoryPhotoBinding? = null
+    private val binding get() = _binding!!
 
-    private val viewModel: HistoryPhotoViewModel by viewModels()
+    val historyPhotoViewModel by viewModels<HistoryPhotoViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_history_photo, container, false)
+        _binding = FragmentHistoryPhotoBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        with(binding) {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = historyPhotoViewModel
+
+            fabAddPhotoHistory.setOnClickListener {
+                findNavController().navigate(
+                    actionNavHistoryPhotoToHistoryPhotoItemFragment(
+                        HistoryPhoto("", emptyList())
+                    )
+                )
+            }
+        }
     }
 }

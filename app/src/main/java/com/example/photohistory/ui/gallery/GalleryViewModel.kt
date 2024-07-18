@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.photohistory.domain.models.GalleryMode
 import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.domain.usecases.PhotoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,7 +41,7 @@ class GalleryViewModel @Inject constructor(
         get() = _multipleCheckedPhotosIsEnabled
 
     private val _selectedPhotos = MutableLiveData<MutableSet<Photo>>()
-    val selectedPhotos: MutableLiveData<MutableSet<Photo>>
+    val selectedPhotos: LiveData<MutableSet<Photo>>
         get() = _selectedPhotos
 
     val photoList = photoUseCase.getPhotoList()

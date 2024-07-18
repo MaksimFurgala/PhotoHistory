@@ -2,6 +2,7 @@ package com.example.photohistory.ui
 
 import android.graphics.Color
 import android.net.Uri
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -59,6 +60,12 @@ fun setTextColorCardViewPhoto(view: TextView, isChecked: Boolean) {
     }
 }
 
+/**
+ * Адаптер для ошибки при вводе наименования
+ *
+ * @param textInputLayout - textInputLayout наименование
+ * @param isError - ошибка
+ */
 @BindingAdapter("errorInputName")
 fun bindErrorInputName(textInputLayout: TextInputLayout, isError: Boolean) {
     val message = if (isError)
@@ -66,4 +73,15 @@ fun bindErrorInputName(textInputLayout: TextInputLayout, isError: Boolean) {
     else
         null
     textInputLayout.error = message
+}
+
+/**
+ * Адаптер для вывода текста, содержащий количество выбранных фото.
+ *
+ * @param button - кнопка выбора
+ * @param countItems - количество элементов
+ */
+@BindingAdapter("countSelectedItemsWithText")
+fun bindCountOfSelectedItemsWithText(button: Button, countItems: Int) {
+    button.text = button.context.getString(R.string.selected_photos_text_btn, countItems)
 }

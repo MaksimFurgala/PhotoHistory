@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="com.example.photohistory.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_nav_history_photo"
             app:destination="@id/nav_history_photo" />
@@ -22,13 +22,21 @@
         android:id="@+id/nav_gallery"
         android:name="com.example.photohistory.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" >
+        tools:layout="@layout/fragment_gallery">
         <argument
             android:name="historyPhoto"
-            app:argType="com.example.photohistory.domain.models.HistoryPhoto" />
+            app:argType="com.example.photohistory.domain.models.HistoryPhoto"
+            app:nullable="true" />
         <action
-            android:id="@+id/action_nav_gallery_to_nav_photo2"
+            android:id="@+id/action_nav_gallery_to_nav_photo"
             app:destination="@id/nav_photo" />
+        <argument
+            android:name="galleryMode"
+            app:argType="com.example.photohistory.domain.models.GalleryMode"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_nav_gallery_to_historyPhotoItemFragment"
+            app:destination="@id/historyPhotoItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_history_photo"
@@ -41,6 +49,9 @@
         <action
             android:id="@+id/action_nav_history_photo_to_nav_life_line"
             app:destination="@id/nav_life_line" />
+        <action
+            android:id="@+id/action_nav_history_photo_to_historyPhotoItemFragment"
+            app:destination="@id/historyPhotoItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_settings"
@@ -61,5 +72,18 @@
         android:name="com.example.photohistory.ui.photo.PhotoFragment"
         android:label="fragment_photo"
         tools:layout="@layout/fragment_photo" />
+    <fragment
+        android:id="@+id/historyPhotoItemFragment"
+        android:name="com.example.photohistory.ui.historyphotoitem.HistoryPhotoItemFragment"
+        android:label="HistoryPhotoItemFragment"
+        tools:layout="@layout/fragment_history_photo_item">
+        <argument
+            android:name="historyPhoto"
+            app:argType="com.example.photohistory.domain.models.HistoryPhoto"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_historyPhotoItemFragment_to_nav_gallery"
+            app:destination="@id/nav_gallery" />
+    </fragment>
 
 </navigation>

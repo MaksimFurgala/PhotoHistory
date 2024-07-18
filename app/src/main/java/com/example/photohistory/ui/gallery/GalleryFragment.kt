@@ -11,11 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.photohistory.R
 import com.example.photohistory.databinding.FragmentGalleryBinding
+import com.example.photohistory.domain.models.GalleryMode
+import com.example.photohistory.domain.models.HistoryPhoto
 import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.ui.PhotoListAdapter
 import com.squareup.picasso.Picasso
@@ -27,7 +32,11 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
 
+    private val args by navArgs<GalleryFragmentArgs>()
     val galleryViewModel by viewModels<GalleryViewModel>()
+    var currentHistoryPhoto: HistoryPhoto? = null
+
+    var galleryMode = GalleryMode.SHOW
 
     @Inject
     lateinit var photoListAdapter: PhotoListAdapter
@@ -55,13 +64,21 @@ class GalleryFragment : Fragment() {
             } else {
                 // В случае отмены логируем и удаляем временный файл.
                 Log.d("GalleryFragment", "ImageCapture is cancelled.")
-                galleryViewModel.newImageUri.value?.let { uri -> context.contentResolver.delete(
-                    uri,
-                    null,
-                    null
-                ) }
+                galleryViewModel.newImageUri.value?.let { uri ->
+                    context.contentResolver.delete(
+                        uri,
+                        null,
+                        null
+                    )
+                }
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        parseParams()
     }
 
     /**
@@ -101,6 +118,31 @@ class GalleryFragment : Fragment() {
                 galleryViewModel.createImageUri()
                 contractImageCapture.launch(galleryViewModel.newImageUri.value)
             }
+
+            when (galleryMode) {
+                GalleryMode.SELECT -> {
+                    btnSelectedPhotos.setOnClickListener {
+                        findNavController().navigate(
+                            GalleryFragmentDirections.actionNavGalleryToHistoryPhotoItemFragment(
+                                currentHistoryPhoto?.copy(
+                                    photos = galleryViewModel.selectedPhotos.value?.toList()
+                                        ?: emptyList()
+                                )
+                            )
+                        )
+                    }
+
+                    //region Скрываем UI элементы
+                    fabCreatePhoto.isGone = true
+                    fabDeletePhoto.isGone = true
+                    newPhotoPanel.isGone = true
+                    //endregion
+                }
+
+                GalleryMode.SHOW -> {
+
+                }
+            }
         }
 
         setupRecyclerView()
@@ -139,6 +181,19 @@ class GalleryFragment : Fragment() {
     }
 
     /**
+     * Парсинг аргументов из текущего фрагмента, которые переданы из activity или фрагмента.
+     *
+     */
+    private fun parseParams() {
+        try {
+            galleryMode = args.galleryMode!!
+            currentHistoryPhoto = args.historyPhoto
+        } catch (ex: Exception) {
+            Log.d("GalleryFragmentParseParams", "${ex.message} ${ex.stackTrace.toString()}")
+        }
+    }
+
+    /**
      * Изменение состояния для фото в recyclerView при событии клика.
      *
      * @param photo - фото
@@ -153,6 +208,12 @@ class GalleryFragment : Fragment() {
         }
         if (galleryViewModel.selectedPhotos.value?.any() != true) {
             galleryViewModel.updateMultipleCheckedPhotos(false)
+        }
+        if (galleryMode == GalleryMode.SELECT) {
+            binding.btnSelectedPhotos.text = getString(
+                R.string.selected_photos_text_btn,
+                galleryViewModel.selectedPhotos.value?.size ?: 0
+            )
         }
     }
 

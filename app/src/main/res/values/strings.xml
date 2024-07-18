@@ -40,4 +40,5 @@
     <string name="tv_photo_title">Новое фото</string>
     <string name="tv_photo_tools_text">Фото</string>
     <string name="error_input_name">Необходимо заполнить наименование</string>
+    <string name="selected_photos_text_btn">Выбрано фото: %1$d</string>
 </resources>

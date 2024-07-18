@@ -2,19 +2,11 @@ package com.example.photohistory.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.map
-import com.example.photohistory.data.db.models.HistoryPhotoDbModel
-import com.example.photohistory.data.db.models.HistoryPhotoWithPhotos
-import com.example.photohistory.data.db.models.PhotoDbModel
 import com.example.photohistory.domain.models.HistoryPhoto
 import com.example.photohistory.domain.models.LifeLine
 import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.domain.models.UISettings
 import com.example.photohistory.domain.repository.PhotoHistoryRepository
-import kotlinx.coroutines.flow.emptyFlow
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 class PhotoHistoryRepositoryImpl @Inject constructor(
