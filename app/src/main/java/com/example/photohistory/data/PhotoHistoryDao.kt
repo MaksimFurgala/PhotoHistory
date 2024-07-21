@@ -10,6 +10,7 @@ import androidx.room.Update
 import com.example.photohistory.data.db.models.HistoryPhotoDbModel
 import com.example.photohistory.data.db.models.HistoryPhotoWithPhotos
 import com.example.photohistory.data.db.models.PhotoDbModel
+import com.example.photohistory.domain.models.HistoryPhoto
 
 @Dao
 interface PhotoHistoryDao {
@@ -30,4 +31,7 @@ interface PhotoHistoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addHistoryPhoto(historyPhotoDbModel: HistoryPhotoDbModel)
+
+    @Query("SELECT * FROM history_photos")
+    fun getHistoryPhotoList(): LiveData<List<HistoryPhotoDbModel>>
 }

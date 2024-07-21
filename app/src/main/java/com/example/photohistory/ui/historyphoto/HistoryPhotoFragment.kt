@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.photohistory.databinding.FragmentHistoryPhotoBinding
 import com.example.photohistory.domain.models.HistoryPhoto
+import com.example.photohistory.ui.HistoryPhotoAdapter
 import com.example.photohistory.ui.historyphoto.HistoryPhotoFragmentDirections.actionNavHistoryPhotoToHistoryPhotoItemFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HistoryPhotoFragment : Fragment() {
@@ -20,8 +22,18 @@ class HistoryPhotoFragment : Fragment() {
 
     val historyPhotoViewModel by viewModels<HistoryPhotoViewModel>()
 
+    @Inject
+    lateinit var historyPhotoListAdapter: HistoryPhotoAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    private fun setupRecyclerView() {
+        with(binding.rvHistoryPhoto) {
+            adapter = historyPhotoListAdapter
+            // TODO: сделать адаптивный grid
+        }
     }
 
     override fun onCreateView(
@@ -45,6 +57,14 @@ class HistoryPhotoFragment : Fragment() {
                         HistoryPhoto("", emptyList())
                     )
                 )
+            }
+        }
+
+        setupRecyclerView()
+
+        with(historyPhotoViewModel) {
+            historyPhotoList.observe(viewLifecycleOwner) {
+                historyPhotoListAdapter.submitList(it)
             }
         }
     }

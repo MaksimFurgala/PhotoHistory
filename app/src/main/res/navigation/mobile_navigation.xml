@@ -84,6 +84,9 @@
         <action
             android:id="@+id/action_historyPhotoItemFragment_to_nav_gallery"
             app:destination="@id/nav_gallery" />
+        <action
+            android:id="@+id/action_historyPhotoItemFragment_to_nav_history_photo"
+            app:destination="@id/nav_history_photo" />
     </fragment>
 
 </navigation>

@@ -48,4 +48,20 @@ class PhotoListAdapter @Inject constructor() :
             }
         }
     }
+
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        return if (item.isChecked) VIEW_TYPE_CHECKED else VIEW_TYPE_UNCHECKED
+    }
+
+    /**
+     * Вспомогательный объект для хранения констант для recycler view.
+     *
+     * @constructor Create empty Companion
+     */
+    companion object {
+        const val VIEW_TYPE_CHECKED = 100
+        const val VIEW_TYPE_UNCHECKED = 101
+        const val MAX_POOL_SIZE = 25
+    }
 }

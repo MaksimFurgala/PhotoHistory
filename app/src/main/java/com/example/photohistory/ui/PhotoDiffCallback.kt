@@ -9,6 +9,6 @@ class PhotoDiffCallback : DiffUtil.ItemCallback<Photo>() {
     }
 
     override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-        return oldItem == newItem
+        return oldItem == newItem && oldItem.isChecked == newItem.isChecked
     }
 }

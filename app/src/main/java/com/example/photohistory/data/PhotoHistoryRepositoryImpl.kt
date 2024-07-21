@@ -2,6 +2,7 @@ package com.example.photohistory.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import com.example.photohistory.data.db.models.HistoryPhotoDbModel
 import com.example.photohistory.domain.models.HistoryPhoto
 import com.example.photohistory.domain.models.LifeLine
 import com.example.photohistory.domain.models.Photo
@@ -68,7 +69,12 @@ class PhotoHistoryRepositoryImpl @Inject constructor(
     }
 
     override fun getHistoryPhotoList(): LiveData<List<HistoryPhoto>> {
-        TODO("Not yet implemented")
+        return MediatorLiveData<List<HistoryPhoto>>().apply {
+            addSource(photoHistoryDao.getHistoryPhotoList()) { listDbModel ->
+                value = listDbModel.map { HistoryPhoto(name = it.name, photos = emptyList(), id = it.id) }
+                //value = listDbModel.map { mapper.historyPhotoDbModelToHistoryPhoto(it).copy(photos = emptyList()) }
+            }
+        }
     }
 
     override fun getUISettings(): LiveData<UISettings> {

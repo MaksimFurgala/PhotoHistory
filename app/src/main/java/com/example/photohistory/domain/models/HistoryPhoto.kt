@@ -4,6 +4,7 @@ import android.location.Location
 import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.versionedparcelable.NonParcelField
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -21,6 +22,8 @@ data class HistoryPhoto(
     val photos: List<Photo>,
     val id: Int = UNDEFINED_ID
 ): Parcelable {
+    @IgnoredOnParcel
+    var isChecked: Boolean = false
 
     companion object {
         const val UNDEFINED_ID = 0

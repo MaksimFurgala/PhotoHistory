@@ -150,6 +150,12 @@ class HistoryPhotoItemFragment : Fragment() {
         historyPhotoItemViewModel.updateCurrentHistoryPhoto(args.historyPhoto!!)
     }
 
+    private fun observeViewModel() {
+        historyPhotoItemViewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
+            findNavController().navigate(HistoryPhotoItemFragmentDirections.actionHistoryPhotoItemFragmentToNavHistoryPhoto())
+        }
+    }
+
     /**
      * Запуск режима для фрагмента по добавлению/редактированию фото-истории.
      *
