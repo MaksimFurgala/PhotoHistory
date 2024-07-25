@@ -2,7 +2,7 @@ package com.example.photohistory.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.photohistory.data.db.models.HistoryPhotoDbModel
+import com.example.photohistory.data.db.models.HistoryPhotoRef
 import com.example.photohistory.domain.models.HistoryPhoto
 import com.example.photohistory.domain.models.LifeLine
 import com.example.photohistory.domain.models.Photo
@@ -53,7 +53,14 @@ class PhotoHistoryRepositoryImpl @Inject constructor(
 
     override suspend fun addHistoryPhoto(historyPhoto: HistoryPhoto) {
         val historyPhotoDbModel = mapper.historyPhotoToHistoryPhotoDbModel(historyPhoto)
-        photoHistoryDao.addHistoryPhoto(historyPhotoDbModel)
+        val historyPhotoId = photoHistoryDao.addHistoryPhoto(historyPhotoDbModel)
+        historyPhoto.photos.forEach { photo ->
+            val photoId = photoHistoryDao.addPhoto(mapper.photoToPhotoDbModel(photo))
+            photoHistoryDao.addHistoryPhotoWithPhoto(HistoryPhotoRef(
+                historyPhotoId = historyPhotoId,
+                photoId = photoId
+            ))
+        }
     }
 
     override suspend fun deleteHistoryPhoto(historyPhoto: HistoryPhoto) {
@@ -71,8 +78,13 @@ class PhotoHistoryRepositoryImpl @Inject constructor(
     override fun getHistoryPhotoList(): LiveData<List<HistoryPhoto>> {
         return MediatorLiveData<List<HistoryPhoto>>().apply {
             addSource(photoHistoryDao.getHistoryPhotoList()) { listDbModel ->
-                value = listDbModel.map { HistoryPhoto(name = it.name, photos = emptyList(), id = it.id) }
-                //value = listDbModel.map { mapper.historyPhotoDbModelToHistoryPhoto(it).copy(photos = emptyList()) }
+                value = listDbModel.map {
+                    HistoryPhoto(
+                        name = it.historyPhotoDbModel.name,
+                        photos = it.photos.map { photo -> mapper.photoDbModelToPhoto(photo) },
+                        historyPhotoId = it.historyPhotoDbModel.historyPhotoId
+                    )
+                }
             }
         }
     }

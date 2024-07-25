@@ -7,18 +7,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import com.example.photohistory.R
+import com.example.photohistory.databinding.ItemHistoryPhotoBinding
 import com.example.photohistory.domain.models.HistoryPhoto
-import com.example.photohistory.domain.models.Photo
 import javax.inject.Inject
 
 class HistoryPhotoAdapter @Inject constructor() :
-    ListAdapter<HistoryPhoto, PhotoViewHolder>(HistoryPhotoDiffCallback()) {
+    ListAdapter<HistoryPhoto, HistoryPhotoViewHolder>(HistoryPhotoDiffCallback()) {
 
     var onHistoryPhotoLongClickListener: ((HistoryPhoto, Int) -> Unit)? = null
     var onHistoryPhotoClickListener: ((HistoryPhoto, Int) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        return PhotoViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryPhotoViewHolder {
+        return HistoryPhotoViewHolder(
             DataBindingUtil.inflate<ViewDataBinding>(
                 LayoutInflater.from(parent.context),
                 R.layout.item_history_photo,
@@ -28,7 +28,7 @@ class HistoryPhotoAdapter @Inject constructor() :
         )
     }
 
-    override fun onBindViewHolder(viewHolder: PhotoViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: HistoryPhotoViewHolder, position: Int) {
         val historyPhoto = getItem(position)
         val binding = viewHolder.binding
 
@@ -40,6 +40,12 @@ class HistoryPhotoAdapter @Inject constructor() :
             setOnLongClickListener {
                 onHistoryPhotoLongClickListener?.invoke(historyPhoto, position)
                 true
+            }
+        }
+
+        when (binding) {
+            is ItemHistoryPhotoBinding -> {
+                binding.historyPhoto = historyPhoto
             }
         }
     }

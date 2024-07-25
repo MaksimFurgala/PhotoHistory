@@ -41,7 +41,7 @@
     <fragment
         android:id="@+id/nav_history_photo"
         android:name="com.example.photohistory.ui.historyphoto.HistoryPhotoFragment"
-        android:label="HistoryPhotoFragment"
+        android:label="@string/menu_history_photo"
         tools:layout="@layout/fragment_history_photo">
         <action
             android:id="@+id/action_nav_history_photo_to_nav_gallery"
@@ -56,12 +56,12 @@
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.photohistory.ui.settings.SettingsFragment"
-        android:label="fragment_settings"
+        android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/nav_life_line"
         android:name="com.example.photohistory.ui.lifeline.LifeLineFragment"
-        android:label="LifeLineFragment"
+        android:label="@string/menu_life_line"
         tools:layout="@layout/fragment_life_line">
         <argument
             android:name="historyPhoto"
@@ -71,7 +71,11 @@
         android:id="@+id/nav_photo"
         android:name="com.example.photohistory.ui.photo.PhotoFragment"
         android:label="fragment_photo"
-        tools:layout="@layout/fragment_photo" />
+        tools:layout="@layout/fragment_photo" >
+        <argument
+            android:name="photo"
+            app:argType="com.example.photohistory.domain.models.Photo" />
+    </fragment>
     <fragment
         android:id="@+id/historyPhotoItemFragment"
         android:name="com.example.photohistory.ui.historyphotoitem.HistoryPhotoItemFragment"

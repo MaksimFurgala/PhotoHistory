@@ -13,7 +13,7 @@ import com.example.photohistory.domain.models.HistoryPhoto.Companion.UNDEFINED_I
 data class LifeLine(
     val name: String,
     val lifeLineText: String = DEFAULT_LIFE_LINE_TEXT,
-    val id: Int = UNDEFINED_ID
+    val id: Long = UNDEFINED_ID
 ) {
     companion object {
         private const val DEFAULT_LIFE_LINE_TEXT = "..."

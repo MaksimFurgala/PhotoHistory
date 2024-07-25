@@ -56,6 +56,7 @@ class GalleryFragment : Fragment() {
                 )
                 galleryViewModel.addPhoto(photo)
 
+                // Устанвыливаем превью фото через Picasso в спец. imageView.
                 Picasso.get()
                     .load(galleryViewModel.newImageUri.value)
                     .placeholder(R.drawable.fab_camera_white)
@@ -162,11 +163,16 @@ class GalleryFragment : Fragment() {
      */
     private fun setupAdapterClickListener() {
         with(photoListAdapter) {
-            //val multipleChecked = galleryViewModel.multipleCheckedPhotosIsEnabled.value
             onPhotoClickListener = { photo, position ->
                 if (galleryViewModel.multipleCheckedPhotosIsEnabled.value == true) {
                     changePhotoState(photo)
                     notifyItemChanged(position)
+                } else {
+                    findNavController().navigate(
+                        GalleryFragmentDirections.actionNavGalleryToNavPhoto(
+                            photo
+                        )
+                    )
                 }
             }
 
@@ -209,6 +215,8 @@ class GalleryFragment : Fragment() {
         if (galleryViewModel.selectedPhotos.value?.any() != true) {
             galleryViewModel.updateMultipleCheckedPhotos(false)
         }
+
+        // Выбран режим выбора фотографий
         if (galleryMode == GalleryMode.SELECT) {
             binding.btnSelectedPhotos.text = getString(
                 R.string.selected_photos_text_btn,

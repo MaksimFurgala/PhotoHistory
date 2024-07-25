@@ -2,8 +2,11 @@ package com.example.photohistory.data.db.models
 
 import androidx.room.Entity
 
-@Entity(tableName = "history_photo_with_photo", primaryKeys = ["photoId", "historyPhotoId"])
+@Entity(
+    tableName = "history_photo_with_photo",
+    primaryKeys = ["historyPhotoId", "photoId"]
+)
 data class HistoryPhotoRef(
-    val photoId: Int,
-    val historyPhotoId: Int
+    val photoId: Long,
+    val historyPhotoId: Long
 )

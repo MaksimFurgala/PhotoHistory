@@ -62,17 +62,19 @@ class HistoryPhotoItemViewModel @Inject constructor(
      *
      * @param inputName - наименование
      * @param photos - список фото
+     * @return результат операции
      */
-    fun addHistoryPhoto(inputName: String, photos: List<Photo>) {
+    fun addHistoryPhoto(inputName: String, photos: List<Photo>): Boolean {
         val name = parseName(inputName)
         val fieldsValidate = validateInput(name, photos)
         if (fieldsValidate) {
             viewModelScope.launch {
                 val historyPhoto = HistoryPhoto(name, photos)
                 historyPhotoUseCase.addHistoryPhoto(historyPhoto)
-                finishWork()
             }
+            return true
         }
+        return false
     }
 
     /**

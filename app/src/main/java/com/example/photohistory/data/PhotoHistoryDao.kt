@@ -6,8 +6,10 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.example.photohistory.data.db.models.HistoryPhotoDbModel
+import com.example.photohistory.data.db.models.HistoryPhotoRef
 import com.example.photohistory.data.db.models.HistoryPhotoWithPhotos
 import com.example.photohistory.data.db.models.PhotoDbModel
 import com.example.photohistory.domain.models.HistoryPhoto
@@ -15,12 +17,12 @@ import com.example.photohistory.domain.models.HistoryPhoto
 @Dao
 interface PhotoHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addPhoto(photoDbModel: PhotoDbModel)
+    suspend fun addPhoto(photoDbModel: PhotoDbModel): Long
 
     @Delete
     suspend fun deletePhoto(photoDbModel: PhotoDbModel)
 
-    @Query("SELECT * FROM photos WHERE id=:photoId LIMIT 1")
+    @Query("SELECT * FROM photos WHERE photoId=:photoId LIMIT 1")
     suspend fun getPhoto(photoId: Int): PhotoDbModel
 
     @Update
@@ -30,8 +32,13 @@ interface PhotoHistoryDao {
     fun getPhotoList(): LiveData<List<PhotoDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addHistoryPhoto(historyPhotoDbModel: HistoryPhotoDbModel)
+    suspend fun addHistoryPhoto(historyPhotoDbModel: HistoryPhotoDbModel): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addHistoryPhotoWithPhoto(historyPhotoRef: HistoryPhotoRef)
+
+    @Transaction
     @Query("SELECT * FROM history_photos")
-    fun getHistoryPhotoList(): LiveData<List<HistoryPhotoDbModel>>
+    fun getHistoryPhotoList(): LiveData<List<HistoryPhotoWithPhotos>>
+
 }

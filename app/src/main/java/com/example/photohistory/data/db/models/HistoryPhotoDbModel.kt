@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "history_photos")
 data class HistoryPhotoDbModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val historyPhotoId: Long,
     val name: String,
 )

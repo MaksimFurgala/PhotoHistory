@@ -21,23 +21,25 @@
 
             <ImageView
                 android:id="@+id/iv_history_photo_preview2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:contentDescription="@string/card_history_photo_content_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:setImageUriHistoryPhoto="@{historyPhoto.photos}"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
                 android:id="@+id/iv_history_photo_preview1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:contentDescription="@string/card_history_photo_content_description"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/iv_history_photo_preview2"
-                app:layout_constraintTop_toTopOf="@+id/iv_history_photo_preview2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:setImageUriHistoryPhoto="@{historyPhoto.photos}"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
@@ -46,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:text="@{historyPhoto.name}"
                 android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="@+id/iv_history_photo_preview1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_history_photo_preview1"
                 tools:text="@string/tv_title_history_photo" />
         </androidx.constraintlayout.widget.ConstraintLayout>

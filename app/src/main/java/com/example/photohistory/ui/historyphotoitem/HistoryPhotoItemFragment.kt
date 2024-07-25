@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.photohistory.databinding.FragmentHistoryPhotoItemBinding
 import com.example.photohistory.domain.models.GalleryMode
+import com.example.photohistory.domain.models.HistoryPhoto.Companion.UNDEFINED_ID
 import com.example.photohistory.domain.models.ScreenMode
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -83,10 +84,13 @@ class HistoryPhotoItemFragment : Fragment() {
     private fun launchAddMode() {
         with(binding) {
             btnSave.setOnClickListener {
-                historyPhotoItemViewModel.addHistoryPhoto(
+                val addResult = historyPhotoItemViewModel.addHistoryPhoto(
                     etName.text.toString(),
                     historyPhotoItemViewModel.selectedPhotos.value ?: emptyList()
                 )
+                if (addResult) {
+                    findNavController().navigate(HistoryPhotoItemFragmentDirections.actionHistoryPhotoItemFragmentToNavHistoryPhoto())
+                }
 
                 // если нет выбранных фотографий, то выводим Toast
                 if (historyPhotoItemViewModel.selectedPhotos.value?.any() == false) {
@@ -142,18 +146,12 @@ class HistoryPhotoItemFragment : Fragment() {
      *
      */
     private fun parseParams() {
-        if (args.historyPhoto?.id != 0) {
+        if (args.historyPhoto?.historyPhotoId != UNDEFINED_ID) {
             screenMode = ScreenMode.EDIT
         } else {
             screenMode = ScreenMode.ADD
         }
         historyPhotoItemViewModel.updateCurrentHistoryPhoto(args.historyPhoto!!)
-    }
-
-    private fun observeViewModel() {
-        historyPhotoItemViewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            findNavController().navigate(HistoryPhotoItemFragmentDirections.actionHistoryPhotoItemFragmentToNavHistoryPhoto())
-        }
     }
 
     /**

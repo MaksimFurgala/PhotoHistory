@@ -10,13 +10,13 @@ import androidx.room.PrimaryKey
  * @property path - путь к файлу
  * @property description - описание
  * @property location - геолокация
- * @property id - id
+ * @property photoId - id
  * @constructor Create empty Photo
  */
 @Entity(tableName = "photos")
 data class PhotoDbModel(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val photoId: Int,
     val name: String,
     val path: String?,
     val dataBase64: String?,

@@ -12,7 +12,7 @@ import kotlinx.parcelize.Parcelize
  * @property path - путь к файлу
  * @property description - описание
  * @property location - геолокация
- * @property id - id
+ * @property photoId - id
  * @constructor Create empty Photo
  */
 @Parcelize
@@ -23,7 +23,7 @@ data class Photo(
     val description: String? = null,
     val latitude: Double? = null,
     val longitude: Double? = null,
-    val id: Int = UNDEFINED_ID,
+    val photoId: Long = UNDEFINED_ID,
 ): Parcelable {
 
     @IgnoredOnParcel

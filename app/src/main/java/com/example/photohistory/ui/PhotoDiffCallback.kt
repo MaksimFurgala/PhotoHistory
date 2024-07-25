@@ -5,7 +5,7 @@ import com.example.photohistory.domain.models.Photo
 
 class PhotoDiffCallback : DiffUtil.ItemCallback<Photo>() {
     override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.photoId == newItem.photoId
     }
 
     override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {

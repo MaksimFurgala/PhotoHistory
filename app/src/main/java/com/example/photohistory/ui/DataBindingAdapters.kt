@@ -9,6 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.example.photohistory.R
+import com.example.photohistory.domain.models.Photo
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 
@@ -26,6 +27,30 @@ fun setImageUri(view: ImageView, path: String) {
         .fit()
         .centerCrop()
         .error(R.drawable.photo_error)
+        .into(view)
+}
+
+/**
+ * Адаптер для установки фото внутри нескольких imageView элемента фото-истории.
+ *
+ * @param view - imageView
+ * @param photos - список фото
+ */
+@BindingAdapter("setImageUriHistoryPhoto")
+fun setImageUriHistoryPhoto(view: ImageView, photos: List<Photo>) {
+    when (view.id) {
+        R.id.iv_history_photo_preview1 -> setImageByIdImageView(view, photos, 0)
+        R.id.iv_history_photo_preview2 -> setImageByIdImageView(view, photos, 1)
+        else -> RuntimeException("Undefined id view.")
+    }
+}
+
+private fun setImageByIdImageView(view: ImageView, photos: List<Photo>, index: Int) {
+    Picasso.get()
+        .load((Uri.parse(photos.getOrNull(index)?.path ?: "")))
+        .placeholder(R.drawable.photo_placeholder)
+        .fit()
+        .centerCrop()
         .into(view)
 }
 

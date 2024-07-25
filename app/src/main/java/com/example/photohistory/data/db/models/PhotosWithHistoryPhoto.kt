@@ -4,13 +4,13 @@ import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 
-data class HistoryPhotoWithPhotos(
+data class PhotosWithHistoryPhoto(
 
-    @Embedded val historyPhotoDbModel: HistoryPhotoDbModel,
+    @Embedded val photo: PhotoDbModel,
     @Relation(
-        parentColumn = "historyPhotoId",
-        entityColumn = "photoId",
+        parentColumn = "photoId",
+        entityColumn = "historyPhotoId",
         associateBy = Junction(HistoryPhotoRef::class)
     )
-    val photos: List<PhotoDbModel>
+    val historyPhotos: List<HistoryPhotoDbModel>
 )
