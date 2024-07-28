@@ -7,6 +7,8 @@ import com.example.photohistory.data.PhotoHistoryRepositoryImpl
 import com.example.photohistory.data.UserRepositoryImpl
 import com.example.photohistory.domain.repository.PhotoHistoryRepository
 import com.example.photohistory.domain.repository.UserRepository
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,5 +40,11 @@ class DataModule {
     @Singleton
     fun provideDatabaseMapper(): DatabaseMapper {
         return Mappers.getMapper(DatabaseMapper::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(@ApplicationContext context: Context): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(context)
     }
 }

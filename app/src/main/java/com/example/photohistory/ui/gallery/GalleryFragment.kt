@@ -1,5 +1,6 @@
 package com.example.photohistory.ui.gallery
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
@@ -21,12 +22,21 @@ import com.example.photohistory.R
 import com.example.photohistory.databinding.FragmentGalleryBinding
 import com.example.photohistory.domain.models.GalleryMode
 import com.example.photohistory.domain.models.HistoryPhoto
+import com.example.photohistory.domain.models.LocationModel
 import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.ui.PhotoListAdapter
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+/**
+ * Gallery fragment
+ *
+ * @constructor Create empty Gallery fragment
+ */
 @AndroidEntryPoint
 class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
@@ -36,14 +46,18 @@ class GalleryFragment : Fragment() {
     val galleryViewModel by viewModels<GalleryViewModel>()
     var currentHistoryPhoto: HistoryPhoto? = null
 
+    @Inject
+    lateinit var fusedLocationClient: FusedLocationProviderClient
+
     var galleryMode = GalleryMode.SHOW
 
     @Inject
     lateinit var photoListAdapter: PhotoListAdapter
 
     private lateinit var contractImageCapture: ActivityResultLauncher<Uri>
+    private lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
 
-    @SuppressLint("Recycle")
+    @SuppressLint("Recycle", "MissingPermission")
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -74,6 +88,37 @@ class GalleryFragment : Fragment() {
                 }
             }
         }
+
+        // Регистрируем новый контракт Разрешения на предоставления точного и приблизительного местоположения.
+        locationPermissionRequest =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+                when {
+                    permissions.getOrDefault(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        false
+                    ) || permissions.getOrDefault(
+                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                        false
+                    ) -> {
+                        fusedLocationClient.getCurrentLocation(
+                            Priority.PRIORITY_BALANCED_POWER_ACCURACY,
+                            CancellationTokenSource().token
+                        ).apply {
+                            addOnCompleteListener {
+                                galleryViewModel.updateCurrentLocationModel(
+                                    LocationModel(
+                                        result.latitude, result.longitude, true
+                                    )
+                                )
+                            }
+                        }
+                    }
+
+                    else -> {
+                        galleryViewModel.updateCurrentLocationModel(LocationModel(0.0, 0.0, true))
+                    }
+                }
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,6 +161,13 @@ class GalleryFragment : Fragment() {
 
             // Создаем обработчик события создания нового фото: создание нового Uri и запуск контракта.
             fabCreatePhoto.setOnClickListener {
+                locationPermissionRequest.launch(
+                    arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
+                )
+
                 galleryViewModel.createImageUri()
                 contractImageCapture.launch(galleryViewModel.newImageUri.value)
             }

@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.play.services.location)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.room.runtime)

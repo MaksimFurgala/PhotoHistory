@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.photohistory.domain.models.GalleryMode
+import com.example.photohistory.domain.models.LocationModel
 import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.domain.usecases.PhotoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,6 +45,10 @@ class GalleryViewModel @Inject constructor(
     val selectedPhotos: LiveData<MutableSet<Photo>>
         get() = _selectedPhotos
 
+    private val _currentLocationModel = MutableLiveData<LocationModel>()
+    val currentLocationModel: LiveData<LocationModel>
+        get() = _currentLocationModel
+
     val photoList = photoUseCase.getPhotoList()
 
     /**
@@ -65,13 +70,33 @@ class GalleryViewModel @Inject constructor(
     }
 
     /**
+     * Обновить модель тек. геолокации.
+     *
+     * @param locationModel - модель геолокации
+     */
+    fun updateCurrentLocationModel(locationModel: LocationModel) {
+        _currentLocationModel.value = locationModel
+    }
+
+    /**
      * Добавление нового фото.
      *
      * @param photo - фото
      */
     fun addPhoto(photo: Photo) {
         viewModelScope.launch {
-            photoUseCase.addPhoto(photo)
+            currentLocationModel.value?.let {
+                if (it.isGranted) {
+                    photoUseCase.addPhoto(
+                        photo.copy(
+                            latitude = it.latitude,
+                            longitude = it.longitude
+                        )
+                    )
+                } else {
+                    photoUseCase.addPhoto(photo)
+                }
+            }
         }
     }
 
