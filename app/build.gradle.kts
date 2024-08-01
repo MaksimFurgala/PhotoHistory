@@ -1,3 +1,10 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
+// Api-ключ для карт Yandex (считывание из файла local.properties).
+val apiKeyMap by lazy {
+    gradleLocalProperties(rootDir, providers).getProperty("MAPKIT_API_KEY")
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -28,6 +35,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "MAPKIT_API_KEY", "\"$apiKeyMap\"")
+        }
+        debug {
+            buildConfigField("String", "MAPKIT_API_KEY", "\"$apiKeyMap\"")
         }
     }
     compileOptions {
@@ -39,6 +50,7 @@ android {
     }
     buildFeatures {
         dataBinding = true
+        buildConfig = true
     }
 }
 
@@ -62,7 +74,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.legacy.support.v4)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.play.services.maps)
+    implementation(libs.yandex.android.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

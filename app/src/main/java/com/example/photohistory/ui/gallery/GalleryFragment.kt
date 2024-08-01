@@ -49,7 +49,7 @@ class GalleryFragment : Fragment() {
     @Inject
     lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    var galleryMode = GalleryMode.SHOW
+    private var galleryMode = GalleryMode.SHOW
 
     @Inject
     lateinit var photoListAdapter: PhotoListAdapter
