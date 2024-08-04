@@ -8,12 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.photohistory.R
 import com.example.photohistory.databinding.FragmentLifeLineBinding
 import com.example.photohistory.domain.models.HistoryPhoto
+import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.ui.PhotoListAdapter
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.PlacemarkMapObject
+import com.yandex.mapkit.mapview.MapView
+import com.yandex.runtime.image.ImageProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -32,7 +37,6 @@ class LifeLineFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MapKitFactory.initialize(context)
-        // TODO: Use the ViewModel
     }
 
     override fun onStart() {
@@ -79,6 +83,7 @@ class LifeLineFragment : Fragment() {
             viewModel = lifeLineViewModel
         }
 
+        // Инициализация recyclerView.
         setupRecyclerView()
 
         with(lifeLineViewModel) {
@@ -87,6 +92,7 @@ class LifeLineFragment : Fragment() {
             }
         }
 
+        // Установка слушателей нажатия для элементов recyclerView.
         setupAdapterClickListener()
     }
 
@@ -107,8 +113,61 @@ class LifeLineFragment : Fragment() {
                             30.0f
                         )
                     )
+                    // Узнаем, что точка не была добавлена, тогда добавляем ее на карту и во viewModel.
+                    if (!placemarkIsAdded(photo)) {
+                        addPlacemark(binding.mapView, photo)
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * Восстановление меток из viewModel.
+     *
+     */
+    private fun restorePlacemarks() {
+        lifeLineViewModel.placemarkPhotos.value?.let { placemarks ->
+            placemarks.forEach {
+                if (it.key.latitude != null && it.key.longitude != null) {
+                    addPlacemark(binding.mapView, it.key)
+                }
+            }
+        }
+    }
+
+    /**
+     * Определение того, что точка уже добавлена на карту.
+     *
+     * @param photo - фото
+     * @return - признак того, что точка добавлена
+     */
+    private fun placemarkIsAdded(photo: Photo): Boolean {
+        return lifeLineViewModel.placemarkPhotos.value?.containsKey(photo) ?: false
+    }
+
+    /**
+     * Добавление точки на карте + добавление во viewModel.
+     *
+     * @param mapView - карта
+     * @param photo - фото
+     */
+    private fun addPlacemark(mapView: MapView, photo: Photo) {
+        val imageProvider = ImageProvider.fromResource(context, R.drawable.photo_placemark)
+        mapView.mapWindow.map.mapObjects.addPlacemark().apply {
+            geometry = Point(photo.latitude!!, photo.longitude!!)
+            setIcon(imageProvider)
+            addPlacemarkViewModel(photo, this)
+        }
+    }
+
+    /**
+     * Добавление маркера во viewModel.
+     *
+     * @param photo - фото
+     * @param placemarkMapObject - маркер на карте
+     */
+    private fun addPlacemarkViewModel(photo: Photo, placemarkMapObject: PlacemarkMapObject) {
+        lifeLineViewModel.addPlacemark(photo, placemarkMapObject)
     }
 }
