@@ -6,11 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.photohistory.domain.models.HistoryPhoto
-import com.example.photohistory.domain.models.Photo
 import com.example.photohistory.domain.usecases.HistoryPhotoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +24,21 @@ class HistoryPhotoViewModel @Inject constructor(
     val selectedPhotos: LiveData<MutableSet<HistoryPhoto>>
         get() = _selectedHistoryPhoto
 
+    /**
+     * LiveData для признака, что фото-история выбрана.
+     */
+    private val _checkedHistoryPhotoIsEnabled = MutableLiveData<Boolean>()
+    val checkedHistoryPhotoIsEnabled: LiveData<Boolean>
+        get() = _checkedHistoryPhotoIsEnabled
+
+    private val _currentHistoryPhoto = MutableLiveData<Pair<Int, HistoryPhoto>?>()
+    val currentHistoryPhoto: LiveData<Pair<Int, HistoryPhoto>?>
+        get() = _currentHistoryPhoto
+
+    private val _oldHistoryPhoto = MutableLiveData<Pair<Int, HistoryPhoto>>()
+    val oldHistoryPhoto: LiveData<Pair<Int, HistoryPhoto>>
+        get() = _oldHistoryPhoto
+
     val historyPhotoList = historyPhotoUseCase.getHistoryPhotoList()
 
     /**
@@ -30,9 +46,23 @@ class HistoryPhotoViewModel @Inject constructor(
      *
      * @param historyPhoto - фото-история
      */
-    fun deleteHistoryPhoto(historyPhoto: HistoryPhoto) {
-        viewModelScope.launch {
-            historyPhotoUseCase.deleteHistoryPhoto(historyPhoto)
+    fun deleteHistoryPhoto() {
+        if (currentHistoryPhoto.value == null) {
+            return
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            historyPhotoUseCase.deleteHistoryPhoto(currentHistoryPhoto.value?.second!!)
+            withContext(Dispatchers.Main) {
+                _currentHistoryPhoto.value = null
+            }
+        }
+    }
+
+    fun updateCurrentHistoryPhoto(status: Boolean) {
+        _currentHistoryPhoto.value?.second?.isChecked = status
+    }
+
+    fun setCurrentHistoryPhoto(historyPhoto: HistoryPhoto, position: Int) {
+        _currentHistoryPhoto.value = position to historyPhoto
     }
 }

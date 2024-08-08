@@ -48,7 +48,15 @@ class PhotoHistoryRepositoryImpl @Inject constructor(
     }
 
     override fun getPhotoListOfHistoryPhoto(historyPhoto: HistoryPhoto): LiveData<List<Photo>> {
-        TODO("Not yet implemented")
+        return MediatorLiveData<List<Photo>>().apply {
+            addSource(photoHistoryDao.getPhotoListOfHistoryPhoto(historyPhoto.historyPhotoId)) { listHistoryPhotoWithPhotos ->
+                listHistoryPhotoWithPhotos.forEach { historyPhotoWithPhotos ->
+                    value = historyPhotoWithPhotos.photos.map {
+                        mapper.photoDbModelToPhoto(it)
+                    }
+                }
+            }
+        }
     }
 
     override suspend fun addHistoryPhoto(historyPhoto: HistoryPhoto) {
@@ -56,15 +64,23 @@ class PhotoHistoryRepositoryImpl @Inject constructor(
         val historyPhotoId = photoHistoryDao.addHistoryPhoto(historyPhotoDbModel)
         historyPhoto.photos.forEach { photo ->
             val photoId = photoHistoryDao.addPhoto(mapper.photoToPhotoDbModel(photo))
-            photoHistoryDao.addHistoryPhotoWithPhoto(HistoryPhotoRef(
-                historyPhotoId = historyPhotoId,
-                photoId = photoId
-            ))
+            photoHistoryDao.addHistoryPhotoWithPhoto(
+                HistoryPhotoRef(
+                    historyPhotoId = historyPhotoId,
+                    photoId = photoId
+                )
+            )
         }
     }
 
+    /**
+     * Удаление фото-истории.
+     *
+     * @param historyPhoto - фото-история
+     */
     override suspend fun deleteHistoryPhoto(historyPhoto: HistoryPhoto) {
-        TODO("Not yet implemented")
+        photoHistoryDao.deleteHistoryPhotoRefByIds(historyPhoto.historyPhotoId)
+        photoHistoryDao.deleteHistoryPhoto(mapper.historyPhotoToHistoryPhotoDbModel(historyPhoto))
     }
 
     override suspend fun getHistoryPhoto(historyPhotoId: Int): HistoryPhoto {

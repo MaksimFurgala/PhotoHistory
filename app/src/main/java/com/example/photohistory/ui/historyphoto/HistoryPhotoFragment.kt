@@ -67,5 +67,44 @@ class HistoryPhotoFragment : Fragment() {
                 historyPhotoListAdapter.submitList(it)
             }
         }
+
+        setupAdapterClickListener()
+    }
+
+    /**
+     * Установка слушателей кликов для обычного и долгого нажатия для адаптера в recyclerView.
+     *
+     */
+    private fun setupAdapterClickListener() {
+        with(historyPhotoListAdapter) {
+            onHistoryPhotoClickListener = { historyPhoto, _ ->
+                findNavController().navigate(
+                    HistoryPhotoFragmentDirections.actionNavHistoryPhotoToNavLifeLine(
+                        historyPhoto
+                    )
+                )
+            }
+
+            onHistoryPhotoLongClickListener = { historyPhoto, position ->
+                historyPhotoViewModel.setCurrentHistoryPhoto(historyPhoto, position)
+                historyPhotoViewModel.updateCurrentHistoryPhoto(false)
+                changeHistoryPhotoState(historyPhoto)
+                notifyItemChanged(position)
+                // TODO: поменять статус у old элемента, если таковой был
+            }
+        }
+    }
+
+    /**
+     * Изменение состояния для фото в recyclerView при событии клика.
+     *
+     * @param photo - фото
+     */
+    private fun changeHistoryPhotoState(historyPhoto: HistoryPhoto) {
+        if (historyPhoto.isChecked) {
+            historyPhoto.isChecked = false
+        } else {
+            historyPhoto.isChecked = true
+        }
     }
 }

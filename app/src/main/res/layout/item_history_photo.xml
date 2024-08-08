@@ -13,7 +13,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp">
+        android:layout_marginVertical="4dp"
+        android:setBackgroundColorCardViewPhoto="@{historyPhoto.checked}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"

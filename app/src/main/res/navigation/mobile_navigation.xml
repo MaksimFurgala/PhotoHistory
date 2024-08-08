@@ -65,13 +65,14 @@
         tools:layout="@layout/fragment_life_line">
         <argument
             android:name="historyPhoto"
-            app:argType="com.example.photohistory.domain.models.HistoryPhoto" />
+            app:argType="com.example.photohistory.domain.models.HistoryPhoto"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/nav_photo"
         android:name="com.example.photohistory.ui.photo.PhotoFragment"
         android:label="fragment_photo"
-        tools:layout="@layout/fragment_photo" >
+        tools:layout="@layout/fragment_photo">
         <argument
             android:name="photo"
             app:argType="com.example.photohistory.domain.models.Photo" />

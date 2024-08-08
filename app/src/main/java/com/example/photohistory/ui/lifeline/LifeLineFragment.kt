@@ -85,7 +85,7 @@ class LifeLineFragment : Fragment() {
 
         // Инициализация recyclerView.
         setupRecyclerView()
-
+        parseParams()
         with(lifeLineViewModel) {
             photoList.observe(viewLifecycleOwner) {
                 photoListAdapter.submitList(it)
@@ -94,6 +94,12 @@ class LifeLineFragment : Fragment() {
 
         // Установка слушателей нажатия для элементов recyclerView.
         setupAdapterClickListener()
+    }
+
+    private fun parseParams() {
+        if (args.historyPhoto != null) {
+            lifeLineViewModel.setSelectedHistoryPhoto(args.historyPhoto!!)
+        }
     }
 
     /**

@@ -12,7 +12,6 @@ import com.example.photohistory.data.db.models.HistoryPhotoDbModel
 import com.example.photohistory.data.db.models.HistoryPhotoRef
 import com.example.photohistory.data.db.models.HistoryPhotoWithPhotos
 import com.example.photohistory.data.db.models.PhotoDbModel
-import com.example.photohistory.domain.models.HistoryPhoto
 
 @Dao
 interface PhotoHistoryDao {
@@ -31,6 +30,10 @@ interface PhotoHistoryDao {
     @Query("SELECT * FROM photos")
     fun getPhotoList(): LiveData<List<PhotoDbModel>>
 
+    @Transaction
+    @Query("SELECT * FROM history_photos WHERE historyPhotoId=:historyPhotoId")
+    fun getPhotoListOfHistoryPhoto(historyPhotoId: Long): LiveData<List<HistoryPhotoWithPhotos>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addHistoryPhoto(historyPhotoDbModel: HistoryPhotoDbModel): Long
 
@@ -40,5 +43,14 @@ interface PhotoHistoryDao {
     @Transaction
     @Query("SELECT * FROM history_photos")
     fun getHistoryPhotoList(): LiveData<List<HistoryPhotoWithPhotos>>
+
+    @Delete
+    fun deleteHistoryPhoto(historyPhoto: HistoryPhotoDbModel)
+
+    @Delete
+    fun deleteHistoryPhotoRef(historyPhotoRef: HistoryPhotoRef)
+
+    @Query("DELETE FROM history_photo_with_photo WHERE historyPhotoId =:historyPhotoId")
+    fun deleteHistoryPhotoRefByIds(historyPhotoId: Long)
 
 }

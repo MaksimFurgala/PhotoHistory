@@ -3,9 +3,12 @@ package com.example.photohistory.ui.gallery
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +48,7 @@ class GalleryFragment : Fragment() {
     private val args by navArgs<GalleryFragmentArgs>()
     val galleryViewModel by viewModels<GalleryViewModel>()
     var currentHistoryPhoto: HistoryPhoto? = null
+    private lateinit var locationSettingsLauncher: ActivityResultLauncher<Intent>
 
     @Inject
     lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -124,7 +128,16 @@ class GalleryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // парсим параметры
         parseParams()
+
+        // Инициализация locationSettingsLauncher для открытия настроек местоположения
+        locationSettingsLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            // Проверяем состояние местоположения.
+            isLocationEnabled()
+        }
     }
 
     /**
@@ -161,12 +174,6 @@ class GalleryFragment : Fragment() {
 
             // Создаем обработчик события создания нового фото: создание нового Uri и запуск контракта.
             fabCreatePhoto.setOnClickListener {
-                locationPermissionRequest.launch(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                )
 
                 galleryViewModel.createImageUri()
                 contractImageCapture.launch(galleryViewModel.newImageUri.value)
@@ -193,6 +200,12 @@ class GalleryFragment : Fragment() {
                 }
 
                 GalleryMode.SHOW -> {
+                    if (isLocationEnabled()) {
+                        launchLocationPermissionRequest()
+                    } else {
+                        enableLocation()
+                        launchLocationPermissionRequest()
+                    }
 
                 }
             }
@@ -207,6 +220,26 @@ class GalleryFragment : Fragment() {
         }
 
         setupAdapterClickListener()
+    }
+
+    private fun launchLocationPermissionRequest() {
+        locationPermissionRequest.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        return (requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager).let {
+            it.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        }
+    }
+
+    private fun enableLocation() {
+        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        locationSettingsLauncher.launch(intent)
     }
 
     /**
