@@ -30,11 +30,11 @@
     <string name="menu_life_line">Карта фото-историй</string>
     <string name="menu_settings">Настройки</string>
     <string name="create_photo_image_content_description">Делай фотографии</string>
-    <string name="tv_create_photo_title">Делай фотографии</string>
+    <string name="tv_create_photo_title">Делай\nфотографии</string>
     <string name="create_history_photo_content_description">Создавай альбомы</string>
-    <string name="tv_create_history_photo">Создавай фото-альбомы</string>
+    <string name="tv_create_history_photo">Создавай\nфото-альбомы</string>
     <string name="review_map_content_description">Просматривай карту</string>
-    <string name="tv_review_map">Просматривай карту</string>
+    <string name="tv_review_map">Просматривай\nкарту</string>
     <string name="new_photo_content_description">Новое фото</string>
     <string name="tv_new_photo_is_created">Новое фото создано:</string>
     <string name="iv_photo_content_description">Фотография</string>

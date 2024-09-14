@@ -89,7 +89,7 @@
 
                 <TextView
                     android:id="@+id/tv_create_photo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_create_photo_title"
                     android:textAlignment="center"
@@ -118,7 +118,7 @@
 
                 <TextView
                     android:id="@+id/tv_create_history_photo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_create_history_photo"
                     android:textAlignment="center"
@@ -148,7 +148,7 @@
 
                 <TextView
                     android:id="@+id/tv_review_map"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tv_review_map"
                     android:textAlignment="center"
